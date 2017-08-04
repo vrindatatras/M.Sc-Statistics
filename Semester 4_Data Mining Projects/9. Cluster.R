@@ -6,6 +6,18 @@ apply(htwt,2,function(x) sum(is.na(x)))
 class(htwt)
 str(htwt)
 
+# Check for the optimal number of clusters given the data
+
+mydata <- htwt
+wss <- (nrow(mydata)-1)*sum(apply(mydata,2,var))
+
+for (i in 2:15) wss[i] <- sum(kmeans(mydata,
+                                     centers=i)$withinss)
+plot(1:15, wss, type="b", xlab="Number of Clusters",
+     ylab="Within groups sum of squares",
+     main="Assessing the Optimal Number of Clusters with the Elbow Method",
+     pch=20, cex=2)
+      
 set.seed(123)
 library(ggplot2)
 model1 <- kmeans(htwt[,1:2], 4)
